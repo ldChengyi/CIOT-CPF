@@ -1,0 +1,462 @@
+definitions:
+  dto.DeviceDTO:
+    properties:
+      desc:
+        type: string
+      device_name:
+        type: string
+      device_secret:
+        type: string
+      module_id:
+        type: integer
+      product_id:
+        type: integer
+    type: object
+  dto.ModuleDTO:
+    properties:
+      desc:
+        type: string
+      module_name:
+        type: string
+    type: object
+  dto.ProductDTO:
+    properties:
+      desc:
+        type: string
+      product_key:
+        type: string
+      product_name:
+        type: string
+      product_secret:
+        type: string
+    type: object
+  dto.PropertyDTO:
+    properties:
+      data_type:
+        type: string
+      desc:
+        type: string
+      identifier:
+        type: string
+      property_name:
+        type: string
+    type: object
+  dto.UserLoginDTO:
+    properties:
+      password:
+        type: string
+      username:
+        type: string
+    type: object
+  dto.UserRegisterDTO:
+    properties:
+      password:
+        type: string
+      username:
+        type: string
+    type: object
+  vo.Response:
+    properties:
+      code:
+        description: 状态码，200 为成功，其他为失败
+        type: integer
+      data:
+        description: 可选字段，为空时不包含在 JSON 中
+      msg:
+        description: 消息
+        type: string
+    type: object
+info:
+  contact: {}
+paths:
+  /admin/devices:
+    delete:
+      consumes:
+      - application/json
+      description: 根据设备ID删除指定的设备
+      parameters:
+      - description: 设备ID
+        in: query
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: 操作成功!
+          schema:
+            $ref: '#/definitions/vo.Response'
+        "400":
+          description: 请求参数错误
+          schema:
+            $ref: '#/definitions/vo.Response'
+      summary: 删除设备
+    get:
+      consumes:
+      - application/json
+      description: 根据查询条件获取设备列表，并返回分页数据
+      parameters:
+      - description: 页码
+        in: query
+        name: page
+        required: true
+        type: integer
+      - description: 每页大小
+        in: query
+        name: page_size
+        required: true
+        type: integer
+      - description: 过滤条件，格式为 filter[key]=value, 多个过滤条件用 & 分隔
+        in: query
+        name: filter
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: 操作成功
+          schema:
+            allOf:
+            - $ref: '#/definitions/vo.Response'
+            - properties:
+                data:
+                  additionalProperties: true
+                  type: object
+              type: object
+        "400":
+          description: 请求参数错误
+          schema:
+            $ref: '#/definitions/vo.Response'
+      summary: 获取设备列表
+    post:
+      consumes:
+      - application/json
+      description: 根据提供的设备信息进行设备的保存或更新
+      parameters:
+      - description: 设备信息
+        in: body
+        name: device
+        required: true
+        schema:
+          $ref: '#/definitions/dto.DeviceDTO'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: 操作成功!
+          schema:
+            $ref: '#/definitions/vo.Response'
+        "400":
+          description: 请求参数错误
+          schema:
+            $ref: '#/definitions/vo.Response'
+      summary: 保存或更新设备
+  /admin/modules:
+    delete:
+      consumes:
+      - application/json
+      description: 根据模块ID删除指定的模块
+      parameters:
+      - description: 模块ID
+        in: query
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: 操作成功!
+          schema:
+            $ref: '#/definitions/vo.Response'
+        "400":
+          description: 请求参数错误
+          schema:
+            $ref: '#/definitions/vo.Response'
+      summary: 删除模块
+    get:
+      consumes:
+      - application/json
+      description: 根据查询条件获取模块列表，并返回分页数据
+      parameters:
+      - description: 页码
+        in: query
+        name: page
+        required: true
+        type: integer
+      - description: 每页大小
+        in: query
+        name: page_size
+        required: true
+        type: integer
+      - description: 过滤条件，格式为 filter[key]=value, 多个过滤条件用 & 分隔
+        in: query
+        name: filter
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: 操作成功
+          schema:
+            allOf:
+            - $ref: '#/definitions/vo.Response'
+            - properties:
+                data:
+                  additionalProperties: true
+                  type: object
+              type: object
+        "400":
+          description: 请求参数错误
+          schema:
+            $ref: '#/definitions/vo.Response'
+      summary: 获取模块列表
+    post:
+      consumes:
+      - application/json
+      description: 根据提供的模块信息进行模块的保存或更新
+      parameters:
+      - description: 模块信息
+        in: body
+        name: module
+        required: true
+        schema:
+          $ref: '#/definitions/dto.ModuleDTO'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: 操作成功!
+          schema:
+            $ref: '#/definitions/vo.Response'
+        "400":
+          description: 请求参数错误
+          schema:
+            $ref: '#/definitions/vo.Response'
+      summary: 保存或更新模块
+  /admin/products:
+    delete:
+      consumes:
+      - application/json
+      description: 根据产品ID删除指定的产品
+      parameters:
+      - description: 产品ID
+        in: query
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: 操作成功!
+          schema:
+            $ref: '#/definitions/vo.Response'
+        "400":
+          description: 请求参数错误
+          schema:
+            $ref: '#/definitions/vo.Response'
+      summary: 删除产品
+    get:
+      consumes:
+      - application/json
+      description: 根据查询条件获取产品列表，并返回分页数据
+      parameters:
+      - description: 页码
+        in: query
+        name: page
+        required: true
+        type: integer
+      - description: 每页大小
+        in: query
+        name: page_size
+        required: true
+        type: integer
+      - description: 过滤条件，格式为 filter[key]=value, 多个过滤条件用 & 分隔
+        in: query
+        name: filter
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: 操作成功
+          schema:
+            allOf:
+            - $ref: '#/definitions/vo.Response'
+            - properties:
+                data:
+                  additionalProperties: true
+                  type: object
+              type: object
+        "400":
+          description: 请求参数错误
+          schema:
+            $ref: '#/definitions/vo.Response'
+      summary: 获取产品列表
+    post:
+      consumes:
+      - application/json
+      description: 根据提供的产品信息进行产品的保存或更新
+      parameters:
+      - description: 产品信息
+        in: body
+        name: product
+        required: true
+        schema:
+          $ref: '#/definitions/dto.ProductDTO'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: 操作成功!
+          schema:
+            $ref: '#/definitions/vo.Response'
+        "400":
+          description: 请求参数错误
+          schema:
+            $ref: '#/definitions/vo.Response'
+      summary: 保存或更新产品
+  /admin/properties:
+    delete:
+      consumes:
+      - application/json
+      description: 根据属性ID删除指定的属性
+      parameters:
+      - description: 属性ID
+        in: query
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: 操作成功!
+          schema:
+            $ref: '#/definitions/vo.Response'
+        "400":
+          description: 请求参数错误
+          schema:
+            $ref: '#/definitions/vo.Response'
+      summary: 删除属性
+    get:
+      consumes:
+      - application/json
+      description: 根据查询条件获取属性列表，并返回分页数据
+      parameters:
+      - description: 页码
+        in: query
+        name: page
+        required: true
+        type: integer
+      - description: 每页大小
+        in: query
+        name: page_size
+        required: true
+        type: integer
+      - description: 过滤条件，格式为 filter[key]=value, 多个过滤条件用 & 分隔
+        in: query
+        name: filter
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: 操作成功
+          schema:
+            allOf:
+            - $ref: '#/definitions/vo.Response'
+            - properties:
+                data:
+                  additionalProperties: true
+                  type: object
+              type: object
+        "400":
+          description: 请求参数错误
+          schema:
+            $ref: '#/definitions/vo.Response'
+      summary: 获取属性列表
+    post:
+      consumes:
+      - application/json
+      description: 根据提供的属性信息进行属性的保存或更新
+      parameters:
+      - description: 属性信息
+        in: body
+        name: property
+        required: true
+        schema:
+          $ref: '#/definitions/dto.PropertyDTO'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: 操作成功!
+          schema:
+            $ref: '#/definitions/vo.Response'
+        "400":
+          description: 请求参数错误
+          schema:
+            $ref: '#/definitions/vo.Response'
+      summary: 保存或更新属性
+  /auth/login:
+    post:
+      consumes:
+      - application/json
+      description: 用户通过用户名和密码登录，并返回 token
+      parameters:
+      - description: 用户登录信息
+        in: body
+        name: login
+        required: true
+        schema:
+          $ref: '#/definitions/dto.UserLoginDTO'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: 登录成功
+          schema:
+            allOf:
+            - $ref: '#/definitions/vo.Response'
+            - properties:
+                data:
+                  additionalProperties: true
+                  type: object
+              type: object
+        "400":
+          description: 请求参数错误
+          schema:
+            $ref: '#/definitions/vo.Response'
+      summary: 用户登录
+  /auth/register:
+    post:
+      consumes:
+      - application/json
+      description: 用户注册，提供用户名和密码进行注册
+      parameters:
+      - description: 用户注册信息
+        in: body
+        name: register
+        required: true
+        schema:
+          $ref: '#/definitions/dto.UserRegisterDTO'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: 注册成功
+          schema:
+            $ref: '#/definitions/vo.Response'
+        "400":
+          description: 请求参数错误
+          schema:
+            $ref: '#/definitions/vo.Response'
+      summary: 用户注册
+swagger: "2.0"
