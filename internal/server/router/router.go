@@ -34,4 +34,7 @@ func registerRouters(r *gin.Engine) {
 	routes.RegisterModuleRoutes(admin)
 	routes.RegisterPropertyRoutes(admin)
 	routes.RegisterDeviceVideoRoutes(admin)
+
+	user := r.Group("/user")
+	routes.RegisterMQTTPubRouters(user)
 }

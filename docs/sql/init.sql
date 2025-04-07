@@ -89,8 +89,8 @@ CREATE TABLE `ciot_module_property` (
     INDEX `idx_property_id` (`property_id`)
 );
 
-
-CREATE TABLE IF NOT EXISTS `ciot_device_video` (
+DROP TABLE IF EXISTS `ciot_device_video`;
+CREATE TABLE `ciot_device_video` (
   `id` INT(11) NOT NULL AUTO_INCREMENT,
   `device_id` INT(11) NOT NULL COMMENT '关联的设备ID',
   `enable_video` TINYINT(1) DEFAULT 0 COMMENT '是否启用视频功能，0-禁用，1-启用',
